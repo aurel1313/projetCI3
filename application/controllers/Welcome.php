@@ -18,9 +18,32 @@ class Welcome extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+	public function __construct(){
+		parent::__construct();
+		
+	}
 	public function index()
 	{
-		$this->load->view('welcome_message');
-		$this->load->view('vue1');
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		//regles de validations//
+		$this->form_validation->set_rules("pname","prenom","required");
+		$this->form_validation->set_rules("nom","Nom","required");
+		$this->form_validation->set_rules("pseudo","Pseudo","required|max_length[12]");
+		$this->form_validation->set_rules("email","Email","required|valid_email");
+		
+
+		if ($this->form_validation->run() == FALSE)
+		{
+				$this->load->view('vue1');
+		}
+		else
+		{
+				$this->load->view("formSuccess");
+		}
+		
+		
+		
 	}
+	
 }
